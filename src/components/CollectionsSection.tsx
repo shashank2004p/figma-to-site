@@ -80,7 +80,7 @@ const products: Product[] = [
     reviews: "125k Reviews",
     rating: 4.0,
     image: product2,
-    badge: "hot",
+    badge: "trending",
     colors: ["#374151", "#F5D0C5", "#F3C677"],
   },
   {
@@ -92,7 +92,7 @@ const products: Product[] = [
     reviews: "125k Reviews",
     rating: 4.0,
     image: product3,
-    badge: "trending",
+    badge: "new",
     colors: ["#374151", "#E8B4B8", "#D4A574"],
   },
   {
@@ -104,7 +104,7 @@ const products: Product[] = [
     reviews: "125k Reviews",
     rating: 4.0,
     image: product4,
-    badge: "new",
+    badge: "hot",
     colors: ["#D4A574", "#F3C677", "#E8B4B8"],
   },
 ];
