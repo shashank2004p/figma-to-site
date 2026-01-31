@@ -12,7 +12,7 @@ const HeroSection = () => {
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `url(${heroBackground})`,
-          backgroundSize: "contain",
+          backgroundSize: "auto 100%",
           backgroundPosition: "left center",
           backgroundRepeat: "no-repeat",
         }}
