@@ -1,4 +1,5 @@
 import { Quote } from "lucide-react";
+import { useRef, useState } from "react";
 import avatarMale from "@/assets/avatar-male.jpg";
 import avatarFemale from "@/assets/avatar-female.png";
 
@@ -131,6 +132,88 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
   );
 };
 
+const ScrollableRow = ({ 
+  testimonials, 
+  direction 
+}: { 
+  testimonials: Testimonial[]; 
+  direction: "left" | "right";
+}) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setIsPaused(true);
+    setStartX(e.pageX - (scrollRef.current?.offsetLeft || 0));
+    setScrollLeft(scrollRef.current?.scrollLeft || 0);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - (scrollRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 2;
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTimeout(() => setIsPaused(false), 1000);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false);
+      setTimeout(() => setIsPaused(false), 1000);
+    }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsPaused(true);
+    setStartX(e.touches[0].pageX - (scrollRef.current?.offsetLeft || 0));
+    setScrollLeft(scrollRef.current?.scrollLeft || 0);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const x = e.touches[0].pageX - (scrollRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 2;
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => setIsPaused(false), 1000);
+  };
+
+  return (
+    <div 
+      ref={scrollRef}
+      className={`flex gap-6 overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing ${
+        !isPaused ? (direction === "left" ? "animate-scroll-left" : "animate-scroll-right") : ""
+      }`}
+      style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
+      {[...testimonials, ...testimonials].map((testimonial, index) => (
+        <TestimonialCard key={`${direction}-${index}`} testimonial={testimonial} />
+      ))}
+    </div>
+  );
+};
+
 const TestimonialsSection = () => {
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-secondary/30 overflow-hidden">
@@ -148,22 +231,10 @@ const TestimonialsSection = () => {
       {/* Scrolling Rows */}
       <div className="space-y-6">
         {/* Row 1 - Scroll Left to Right */}
-        <div className="relative">
-          <div className="flex gap-6 animate-scroll-left">
-            {[...testimonialsRow1, ...testimonialsRow1].map((testimonial, index) => (
-              <TestimonialCard key={`row1-${index}`} testimonial={testimonial} />
-            ))}
-          </div>
-        </div>
+        <ScrollableRow testimonials={testimonialsRow1} direction="left" />
 
         {/* Row 2 - Scroll Right to Left */}
-        <div className="relative">
-          <div className="flex gap-6 animate-scroll-right">
-            {[...testimonialsRow2, ...testimonialsRow2].map((testimonial, index) => (
-              <TestimonialCard key={`row2-${index}`} testimonial={testimonial} />
-            ))}
-          </div>
-        </div>
+        <ScrollableRow testimonials={testimonialsRow2} direction="right" />
       </div>
     </section>
   );
