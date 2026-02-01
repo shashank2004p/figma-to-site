@@ -5,6 +5,8 @@ import product3 from "@/assets/product-3.png";
 import product4 from "@/assets/product-4.png";
 import ScrollReveal from "./ScrollReveal";
 import StaggerReveal from "./StaggerReveal";
+import ProductCardSkeleton from "./ProductCardSkeleton";
+import { useImagePreload } from "@/hooks/useImagePreload";
 
 type BadgeType = "new" | "hot" | "trending" | "bestseller" | "limited";
 
@@ -208,6 +210,8 @@ const NewProductCard = ({ product }: { product: NewProduct }) => {
 };
 
 const NewArrivalsSection = () => {
+  const isLoading = useImagePreload(newProducts.map((p) => p.image));
+
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -225,11 +229,19 @@ const NewArrivalsSection = () => {
         </ScrollReveal>
 
         {/* Products Grid */}
-        <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" staggerDelay={0.08}>
-          {newProducts.map((product) => (
-            <NewProductCard key={product.id} product={product} />
-          ))}
-        </StaggerReveal>
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {[...Array(8)].map((_, i) => (
+              <ProductCardSkeleton key={i} variant="arrival" />
+            ))}
+          </div>
+        ) : (
+          <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" staggerDelay={0.08}>
+            {newProducts.map((product) => (
+              <NewProductCard key={product.id} product={product} />
+            ))}
+          </StaggerReveal>
+        )}
 
         {/* Explore Button */}
         <ScrollReveal delay={0.3}>
