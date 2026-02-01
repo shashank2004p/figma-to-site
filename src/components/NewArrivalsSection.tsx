@@ -171,7 +171,7 @@ const NewProductCard = ({ product, onClick }: { product: NewProduct; onClick: ()
           }`}
           onClick={(e) => {
             e.stopPropagation();
-            toggleWishlist(product.id + 100);
+            toggleWishlist(product.id + 100, product.name);
           }}
           whileTap={{ scale: 0.9 }}
         >

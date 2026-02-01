@@ -1,4 +1,4 @@
-import { Heart, Star, ShoppingCart, Minus, Plus, X } from "lucide-react";
+import { Heart, Star, ShoppingCart, Minus, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import {
@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductQuickViewProps {
   product: {
@@ -75,7 +76,7 @@ const ProductQuickView = ({ product, isOpen, onClose }: ProductQuickViewProps) =
                   ? "bg-coral text-white"
                   : "bg-white/90 hover:bg-coral text-muted-foreground hover:text-white"
               }`}
-              onClick={() => toggleWishlist(product.id)}
+              onClick={() => toggleWishlist(product.id, product.name)}
               whileTap={{ scale: 0.9 }}
             >
               <Heart className={`h-5 w-5 ${isWishlisted ? "fill-current" : ""}`} />
@@ -175,6 +176,12 @@ const ProductQuickView = ({ product, isOpen, onClose }: ProductQuickViewProps) =
                 className="flex-1 bg-foreground text-background font-medium px-6 py-3.5 rounded-full flex items-center justify-center gap-2 hover:bg-coral transition-colors duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  toast({
+                    title: "Added to Cart 🛒",
+                    description: `${quantity}x ${product.name} has been added to your cart.`,
+                  });
+                }}
               >
                 <ShoppingCart className="h-5 w-5" />
                 Add to Cart
@@ -183,6 +190,12 @@ const ProductQuickView = ({ product, isOpen, onClose }: ProductQuickViewProps) =
                 className="flex-1 border-2 border-foreground text-foreground font-medium px-6 py-3.5 rounded-full hover:bg-foreground hover:text-background transition-colors duration-300"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  toast({
+                    title: "Proceeding to Checkout 🚀",
+                    description: `Buying ${quantity}x ${product.name}...`,
+                  });
+                }}
               >
                 Buy Now
               </motion.button>

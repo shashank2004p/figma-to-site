@@ -140,7 +140,7 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick: () => vo
           }`}
           onClick={(e) => {
             e.stopPropagation();
-            toggleWishlist(product.id);
+            toggleWishlist(product.id, product.name);
           }}
           whileTap={{ scale: 0.9 }}
         >
