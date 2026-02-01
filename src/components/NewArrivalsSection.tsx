@@ -1,5 +1,6 @@
 import { Heart, ArrowRight, Flame, TrendingUp, Award, Sparkles, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import product1 from "@/assets/product-1.png";
 import product2 from "@/assets/product-2.png";
 import product3 from "@/assets/product-3.png";
@@ -7,6 +8,7 @@ import product4 from "@/assets/product-4.png";
 import ScrollReveal from "./ScrollReveal";
 import StaggerReveal from "./StaggerReveal";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import ProductQuickView from "./ProductQuickView";
 import { useImagePreload } from "@/hooks/useImagePreload";
 import { useWishlist } from "@/contexts/WishlistContext";
 
@@ -149,12 +151,12 @@ const newProducts: NewProduct[] = [
   },
 ];
 
-const NewProductCard = ({ product }: { product: NewProduct }) => {
+const NewProductCard = ({ product, onClick }: { product: NewProduct; onClick: () => void }) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
   const isWishlisted = isInWishlist(product.id + 100); // Offset to avoid ID collision with collections
 
   return (
-    <div className="group cursor-pointer bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+    <div className="group cursor-pointer bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300" onClick={onClick}>
       {/* Image Container */}
       <div className="relative aspect-[4/5] overflow-hidden">
         {/* Dynamic Badge */}
@@ -227,6 +229,7 @@ const NewProductCard = ({ product }: { product: NewProduct }) => {
 
 const NewArrivalsSection = () => {
   const isLoading = useImagePreload(newProducts.map((p) => p.image));
+  const [selectedProduct, setSelectedProduct] = useState<NewProduct | null>(null);
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-background">
@@ -254,9 +257,21 @@ const NewArrivalsSection = () => {
         ) : (
           <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" staggerDelay={0.08}>
             {newProducts.map((product) => (
-              <NewProductCard key={product.id} product={product} />
+              <NewProductCard key={product.id} product={product} onClick={() => setSelectedProduct(product)} />
             ))}
           </StaggerReveal>
+        )}
+
+        {/* Quick View Modal */}
+        {selectedProduct && (
+          <ProductQuickView
+            product={{
+              ...selectedProduct,
+              id: selectedProduct.id + 100, // Offset for wishlist consistency
+            }}
+            isOpen={!!selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+          />
         )}
 
         {/* Explore Button */}
