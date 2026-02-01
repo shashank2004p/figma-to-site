@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { toast } from "@/hooks/use-toast";
 
 interface WishlistContextType {
   wishlist: number[];
   addToWishlist: (id: number) => void;
   removeFromWishlist: (id: number) => void;
-  toggleWishlist: (id: number) => void;
+  toggleWishlist: (id: number, productName?: string) => void;
   isInWishlist: (id: number) => boolean;
   wishlistCount: number;
 }
@@ -29,10 +30,24 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
     setWishlist((prev) => prev.filter((item) => item !== id));
   };
 
-  const toggleWishlist = (id: number) => {
-    setWishlist((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  const toggleWishlist = (id: number, productName?: string) => {
+    setWishlist((prev) => {
+      const isAdding = !prev.includes(id);
+      
+      if (isAdding) {
+        toast({
+          title: "Added to Wishlist ❤️",
+          description: productName ? `${productName} has been saved to your wishlist.` : "Item saved to your wishlist.",
+        });
+        return [...prev, id];
+      } else {
+        toast({
+          title: "Removed from Wishlist",
+          description: productName ? `${productName} has been removed from your wishlist.` : "Item removed from your wishlist.",
+        });
+        return prev.filter((item) => item !== id);
+      }
+    });
   };
 
   const isInWishlist = (id: number) => wishlist.includes(id);
