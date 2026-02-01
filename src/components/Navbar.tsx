@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
+import SearchModal from "./SearchModal";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -17,6 +18,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { wishlistCount } = useWishlist();
   const { cartCount, setIsCartOpen } = useCart();
 
@@ -51,7 +53,12 @@ const Navbar = () => {
 
         {/* Right Side Icons */}
         <div className="flex items-center gap-1 sm:gap-2">
-          <Button variant="ghost" size="icon" className="hidden sm:flex rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral hover:scale-110">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="hidden sm:flex rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral hover:scale-110"
+            onClick={() => setIsSearchOpen(true)}
+          >
             <Search className="h-4 w-4" />
           </Button>
           {/* Cart Button with Badge */}
@@ -130,7 +137,15 @@ const Navbar = () => {
             ))}
           </ul>
           <div className="px-4 pb-4 flex gap-2">
-            <Button variant="ghost" size="icon" className="sm:hidden rounded-full border border-border h-9 w-9">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="sm:hidden rounded-full border border-border h-9 w-9"
+              onClick={() => {
+                setIsSearchOpen(true);
+                setIsMenuOpen(false);
+              }}
+            >
               <Search className="h-4 w-4" />
             </Button>
             <Button variant="ghost" size="icon" className="sm:hidden relative rounded-full border border-border h-9 w-9">
@@ -147,6 +162,8 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </nav>
   );
 };
