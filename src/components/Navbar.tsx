@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Search, ShoppingCart, Heart, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "@/assets/logo.png";
 
@@ -17,6 +18,7 @@ const navLinks = [
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { wishlistCount } = useWishlist();
+  const { cartCount, setIsCartOpen } = useCart();
 
   return (
     <nav className="sticky top-0 z-50 bg-white border-b border-border">
@@ -52,8 +54,26 @@ const Navbar = () => {
           <Button variant="ghost" size="icon" className="hidden sm:flex rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral hover:scale-110">
             <Search className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral hover:scale-110">
+          {/* Cart Button with Badge */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="relative rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral hover:scale-110"
+            onClick={() => setIsCartOpen(true)}
+          >
             <ShoppingCart className="h-4 w-4" />
+            <AnimatePresence>
+              {cartCount > 0 && (
+                <motion.span
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  className="absolute -top-1 -right-1 bg-coral text-white text-[10px] font-bold min-w-[18px] h-[18px] rounded-full flex items-center justify-center shadow-md"
+                >
+                  {cartCount > 9 ? "9+" : cartCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Button>
           
           {/* Wishlist Button with Badge */}

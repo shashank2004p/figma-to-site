@@ -7,8 +7,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { toast } from "@/hooks/use-toast";
 
 interface ProductQuickViewProps {
   product: {
@@ -28,6 +28,7 @@ interface ProductQuickViewProps {
 
 const ProductQuickView = ({ product, isOpen, onClose }: ProductQuickViewProps) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { addToCart, setIsCartOpen } = useCart();
   const isWishlisted = isInWishlist(product.id);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState(0);
@@ -177,10 +178,16 @@ const ProductQuickView = ({ product, isOpen, onClose }: ProductQuickViewProps) =
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  toast({
-                    title: "Added to Cart 🛒",
-                    description: `${quantity}x ${product.name} has been added to your cart.`,
-                  });
+                  addToCart({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    originalPrice: product.originalPrice,
+                    image: product.image,
+                    color: product.colors[selectedColor],
+                  }, quantity);
+                  onClose();
+                  setIsCartOpen(true);
                 }}
               >
                 <ShoppingCart className="h-5 w-5" />
@@ -191,10 +198,16 @@ const ProductQuickView = ({ product, isOpen, onClose }: ProductQuickViewProps) =
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  toast({
-                    title: "Proceeding to Checkout 🚀",
-                    description: `Buying ${quantity}x ${product.name}...`,
-                  });
+                  addToCart({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    originalPrice: product.originalPrice,
+                    image: product.image,
+                    color: product.colors[selectedColor],
+                  }, quantity);
+                  onClose();
+                  setIsCartOpen(true);
                 }}
               >
                 Buy Now

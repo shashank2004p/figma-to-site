@@ -11,6 +11,7 @@ import ProductCardSkeleton from "./ProductCardSkeleton";
 import ProductQuickView from "./ProductQuickView";
 import { useImagePreload } from "@/hooks/useImagePreload";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useCart } from "@/contexts/CartContext";
 interface Product {
   id: number;
   name: string;
@@ -122,7 +123,21 @@ const products: Product[] = [
 
 const ProductCard = ({ product, onClick }: { product: Product; onClick: () => void }) => {
   const { isInWishlist, toggleWishlist } = useWishlist();
+  const { addToCart, setIsCartOpen } = useCart();
   const isWishlisted = isInWishlist(product.id);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image,
+      color: product.colors[0],
+    });
+    setIsCartOpen(true);
+  };
 
   return (
     <div className="group cursor-pointer" onClick={onClick}>
@@ -156,7 +171,10 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick: () => vo
 
         {/* Hover Overlay with Add to Cart */}
         <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-all duration-300 flex items-end justify-center pb-6 opacity-0 group-hover:opacity-100">
-          <button className="bg-white text-foreground font-medium px-6 py-3 rounded-full flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-coral hover:text-white shadow-lg">
+          <button 
+            onClick={handleAddToCart}
+            className="bg-white text-foreground font-medium px-6 py-3 rounded-full flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-coral hover:text-white shadow-lg"
+          >
             <ShoppingCart className="h-4 w-4" />
             Add to Cart
           </button>
