@@ -1,14 +1,26 @@
 import { ArrowRight, Sparkles, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import heroBackground from "@/assets/hero-background.png";
 import heroProduct from "@/assets/hero-product.jpg";
 import avatar from "@/assets/avatar.jpg";
 
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.5, 0.8]);
+
   return (
-    <section className="relative overflow-hidden min-h-[600px] lg:min-h-[700px]">
-      {/* Background Pattern - Full image */}
+    <section ref={sectionRef} className="relative overflow-hidden min-h-[600px] lg:min-h-[700px]">
+      {/* Background Pattern - Full image with parallax */}
       <motion.div
         className="absolute inset-0 z-0"
         initial={{ scale: 1.1, opacity: 0 }}
@@ -19,6 +31,8 @@ const HeroSection = () => {
           backgroundSize: "auto 100%",
           backgroundPosition: "left center",
           backgroundRepeat: "no-repeat",
+          y: backgroundY,
+          scale: backgroundScale,
         }}
       />
 
@@ -28,6 +42,7 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.3 }}
+        style={{ opacity: overlayOpacity }}
       />
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
