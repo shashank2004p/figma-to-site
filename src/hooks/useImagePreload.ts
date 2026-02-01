@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 
-export const useImagePreload = (imageSrcs: string[], delay = 300) => {
+export const useImagePreload = (imageSrcs: string[]) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
-    const minLoadTime = new Promise((resolve) => setTimeout(resolve, delay));
 
     const loadImages = imageSrcs.map(
       (src) =>
@@ -17,7 +16,7 @@ export const useImagePreload = (imageSrcs: string[], delay = 300) => {
         })
     );
 
-    Promise.all([...loadImages, minLoadTime]).then(() => {
+    Promise.all(loadImages).then(() => {
       if (isMounted) {
         setIsLoading(false);
       }
@@ -26,7 +25,7 @@ export const useImagePreload = (imageSrcs: string[], delay = 300) => {
     return () => {
       isMounted = false;
     };
-  }, [imageSrcs, delay]);
+  }, [imageSrcs]);
 
   return isLoading;
 };
