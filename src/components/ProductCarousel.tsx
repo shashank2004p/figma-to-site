@@ -69,6 +69,23 @@ const ProductCarousel = ({
 
   const totalSlides = scrollSnaps.length;
 
+  // Always show exactly 5 dots with selected in the center (position 2, 0-indexed)
+  const getVisibleDotIndices = () => {
+    if (totalSlides === 0) return [];
+    
+    const indices: number[] = [];
+    for (let i = -2; i <= 2; i++) {
+      let index = selectedIndex + i;
+      // Handle wrap around for loop
+      if (index < 0) index = totalSlides + index;
+      if (index >= totalSlides) index = index % totalSlides;
+      indices.push(index);
+    }
+    return indices;
+  };
+
+  const visibleDots = getVisibleDotIndices();
+
   return (
     <div className={cn("relative", className)}>
       {/* Carousel Container */}
@@ -102,31 +119,26 @@ const ProductCarousel = ({
         <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
 
-      {/* Animated Dots Navigation */}
+      {/* 5 Dots Navigation - Center dot is always primary */}
       <div className="flex justify-center items-center gap-2 sm:gap-3 mt-6 sm:mt-8">
-        {scrollSnaps.map((_, index) => {
-          const isSelected = index === selectedIndex;
-          // Calculate distance from selected for scaling effect
-          let distance = Math.abs(index - selectedIndex);
-          // Handle loop wrap-around distance
-          if (totalSlides > 0) {
-            const wrapDistance = totalSlides - distance;
-            distance = Math.min(distance, wrapDistance);
-          }
+        {visibleDots.map((dotIndex, position) => {
+          // Position 2 (middle of 5) is always the selected/center dot
+          const isCenter = position === 2;
+          const distanceFromCenter = Math.abs(position - 2);
           
           return (
             <button
-              key={index}
-              onClick={() => scrollTo(index)}
+              key={`dot-${position}-${dotIndex}`}
+              onClick={() => scrollTo(dotIndex)}
               className={cn(
                 "rounded-full transition-all duration-500 ease-out",
-                isSelected
+                isCenter
                   ? "w-4 h-4 sm:w-5 sm:h-5 bg-coral scale-110 shadow-lg shadow-coral/30"
-                  : distance === 1
+                  : distanceFromCenter === 1
                   ? "w-3 h-3 sm:w-4 sm:h-4 bg-coral/60 hover:bg-coral/80"
                   : "w-2.5 h-2.5 sm:w-3 sm:h-3 bg-muted-foreground/30 hover:bg-muted-foreground/50"
               )}
-              aria-label={`Go to slide ${index + 1}`}
+              aria-label={`Go to slide ${dotIndex + 1}`}
             />
           );
         })}
