@@ -16,16 +16,18 @@ const StockBadge = ({ stock, className = "", showIcon = true, variant = "badge" 
 
   if (variant === "text") {
     return (
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className={`text-xs font-medium ${
-          status.color === "destructive" ? "text-red-500" : "text-amber-600"
+      <motion.button
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold ${
+          status.color === "destructive"
+            ? "bg-red-500/10 text-red-600 border border-red-200"
+            : "bg-amber-500/10 text-amber-700 border border-amber-200"
         } ${className}`}
       >
-        {showIcon && <AlertTriangle className="h-3 w-3 inline mr-1" />}
+        {showIcon && <AlertTriangle className="h-3 w-3" />}
         {status.text}
-      </motion.span>
+      </motion.button>
     );
   }
 
