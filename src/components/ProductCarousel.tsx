@@ -91,7 +91,7 @@ const ProductCarousel = ({
     <div className={cn("relative", className)}>
       {/* Carousel Container */}
       <div className="overflow-hidden px-4 sm:px-8" ref={emblaRef}>
-        <div className="flex gap-4 sm:gap-6">
+        <div className="flex items-stretch gap-4 sm:gap-6">
           {children.map((child, index) => (
             <div 
               key={index} 

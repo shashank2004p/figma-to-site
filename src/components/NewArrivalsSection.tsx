@@ -66,11 +66,11 @@ const NewProductCard = ({ product, onClick }: { product: Product; onClick: () =>
 
   return (
     <div 
-      className="w-[240px] sm:w-[280px] h-[380px] sm:h-[440px] group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] transition-all duration-300 flex flex-col" 
+      className="w-[240px] sm:w-[280px] h-full group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] transition-all duration-300 flex flex-col" 
       onClick={onClick}
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/5] overflow-hidden flex-shrink-0">
+      <div className="relative h-[200px] sm:h-[240px] overflow-hidden flex-shrink-0">
         {/* Dynamic Badge */}
         {product.badge && <BadgeComponent type={product.badge} />}
 
