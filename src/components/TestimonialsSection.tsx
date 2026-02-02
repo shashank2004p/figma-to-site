@@ -81,7 +81,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
       <Quote className="h-8 w-8 text-coral fill-coral/20 mb-4" />
 
       {/* Quote Text */}
-      <p className="text-foreground text-sm sm:text-base leading-relaxed mb-6 no-underline">
+      <p className="text-foreground text-sm sm:text-base leading-relaxed mb-6" style={{ textDecoration: 'none' }}>
         {testimonial.quote}
       </p>
 
