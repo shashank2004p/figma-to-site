@@ -2,10 +2,10 @@ import { Heart, ArrowRight, Flame, TrendingUp, Award, Sparkles, Zap } from "luci
 import { motion } from "framer-motion";
 import { useState } from "react";
 import ScrollReveal from "./ScrollReveal";
-import StaggerReveal from "./StaggerReveal";
 import ProductQuickView from "./ProductQuickView";
 import StockBadge from "./StockBadge";
 import { useWishlist } from "@/contexts/WishlistContext";
+import { useInfiniteMarquee } from "@/hooks/use-infinite-marquee";
 import { products, type Product, type BadgeType } from "@/data/products";
 
 const BadgeComponent = ({ type }: { type: BadgeType }) => {
@@ -65,7 +65,10 @@ const NewProductCard = ({ product, onClick }: { product: Product; onClick: () =>
   const isWishlisted = isInWishlist(product.id + 100); // Offset to avoid ID collision with collections
 
   return (
-    <div className="group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] hover:shadow-[0_20px_50px_-12px_hsl(var(--foreground)/0.2)] transition-all duration-300" onClick={onClick}>
+    <div 
+      className="flex-shrink-0 w-[260px] sm:w-[300px] group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] hover:shadow-[0_20px_50px_-12px_hsl(var(--foreground)/0.2)] transition-all duration-300 select-none" 
+      onClick={onClick}
+    >
       {/* Image Container */}
       <div className="relative aspect-[4/5] overflow-hidden">
         {/* Dynamic Badge */}
@@ -76,7 +79,7 @@ const NewProductCard = ({ product, onClick }: { product: Product; onClick: () =>
           className={`absolute top-3 sm:top-4 right-3 sm:right-4 z-10 rounded-full p-2 sm:p-2.5 transition-all duration-300 hover:scale-110 shadow-md ${
             isWishlisted 
               ? "bg-coral text-white" 
-              : "bg-white/90 hover:bg-coral text-muted-foreground hover:text-white"
+              : "bg-background/90 hover:bg-coral text-muted-foreground hover:text-white"
           }`}
           onClick={(e) => {
             e.stopPropagation();
@@ -91,9 +94,10 @@ const NewProductCard = ({ product, onClick }: { product: Product; onClick: () =>
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
           loading="lazy"
           decoding="async"
+          draggable={false}
         />
       </div>
 
@@ -132,6 +136,7 @@ const NewProductCard = ({ product, onClick }: { product: Product; onClick: () =>
         <a
           href="#"
           className="inline-flex items-center gap-1.5 text-coral font-medium text-sm group/link hover:gap-3 transition-all duration-300"
+          onClick={(e) => e.stopPropagation()}
         >
           Let's Check It Out
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1" />
@@ -141,54 +146,102 @@ const NewProductCard = ({ product, onClick }: { product: Product; onClick: () =>
   );
 };
 
-const NewArrivalsSection = () => {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+const ProductMarquee = ({ 
+  productList, 
+  direction = "right",
+  speed = 35,
+  onProductClick
+}: { 
+  productList: Product[]; 
+  direction?: "left" | "right";
+  speed?: number;
+  onProductClick: (product: Product) => void;
+}) => {
+  const { wrapperRef, isDragging, handlers } = useInfiniteMarquee({
+    direction,
+    speedSeconds: speed,
+    sets: 3,
+  });
+
+  // Triple the items for seamless infinite scroll
+  const items = [...productList, ...productList, ...productList];
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        {/* Section Header */}
-        <ScrollReveal>
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
-              Fresh Styles <span className="text-coral">Just Dropped</span>
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg mt-3 sm:mt-4 max-w-2xl mx-auto">
-              Whether It's Daily Use, Office Wear, Or A Special Occasion — We Have The
-              Perfect Purse For You.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        {/* Products Grid */}
-        <StaggerReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8" staggerDelay={0.08}>
-          {products.map((product) => (
-            <NewProductCard key={product.id} product={product} onClick={() => setSelectedProduct(product)} />
-          ))}
-        </StaggerReveal>
-
-        {/* Quick View Modal */}
-        {selectedProduct && (
-          <ProductQuickView
-            product={{
-              ...selectedProduct,
-              id: selectedProduct.id + 100, // Offset for wishlist consistency
-            }}
-            isOpen={!!selectedProduct}
-            onClose={() => setSelectedProduct(null)}
+    <div 
+      ref={wrapperRef}
+      className={
+        "relative overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing" +
+        (isDragging ? " select-none" : "")
+      }
+      style={{ scrollBehavior: "auto" }}
+      {...handlers}
+    >
+      {/* Gradient overlays for smooth edges */}
+      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+      
+      <div className="flex gap-4 sm:gap-6 py-2 w-max px-4">
+        {items.map((product, index) => (
+          <NewProductCard 
+            key={`${direction}-${product.id}-${index}`} 
+            product={product} 
+            onClick={() => onProductClick(product)} 
           />
-        )}
-
-        {/* Explore Button */}
-        <ScrollReveal delay={0.3}>
-          <div className="flex justify-center mt-10 sm:mt-14">
-            <button className="bg-foreground text-background font-medium px-8 py-4 rounded-full flex items-center gap-2 hover:bg-coral transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-              Explore All New Arrivals
-              <ArrowRight className="h-5 w-5" />
-            </button>
-          </div>
-        </ScrollReveal>
+        ))}
       </div>
+    </div>
+  );
+};
+
+const NewArrivalsSection = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  // Show 5 products for new arrivals
+  const newArrivalProducts = products.slice(0, 5);
+
+  return (
+    <section className="py-12 sm:py-16 lg:py-20 bg-background overflow-hidden">
+      {/* Section Header */}
+      <ScrollReveal>
+        <div className="text-center mb-8 sm:mb-12 px-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
+            Fresh Styles <span className="text-coral">Just Dropped</span>
+          </h2>
+          <p className="text-muted-foreground text-base sm:text-lg mt-3 sm:mt-4 max-w-2xl mx-auto">
+            Whether It's Daily Use, Office Wear, Or A Special Occasion — We Have The
+            Perfect Purse For You.
+          </p>
+        </div>
+      </ScrollReveal>
+
+      {/* Products Marquee */}
+      <ProductMarquee 
+        productList={newArrivalProducts} 
+        direction="right" 
+        speed={40}
+        onProductClick={setSelectedProduct} 
+      />
+
+      {/* Quick View Modal */}
+      {selectedProduct && (
+        <ProductQuickView
+          product={{
+            ...selectedProduct,
+            id: selectedProduct.id + 100, // Offset for wishlist consistency
+          }}
+          isOpen={!!selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
+
+      {/* Explore Button */}
+      <ScrollReveal delay={0.3}>
+        <div className="flex justify-center mt-10 sm:mt-14 px-4">
+          <button className="bg-foreground text-background font-medium px-8 py-4 rounded-full flex items-center gap-2 hover:bg-coral transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
+            Explore All New Arrivals
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
+      </ScrollReveal>
     </section>
   );
 };
