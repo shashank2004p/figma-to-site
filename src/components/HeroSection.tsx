@@ -159,7 +159,7 @@ const HeroSection = () => {
       </div>
 
       {/* ===== DESKTOP LAYOUT ===== */}
-      <div className="relative z-10 hidden lg:block min-h-[700px]">
+      <div className="relative z-10 hidden lg:block min-h-[700px] pb-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-20 items-center max-w-7xl mx-auto">
             {/* Left Content */}
@@ -412,9 +412,9 @@ const HeroSection = () => {
                   </div>
                 </div>
 
-                {/* Product Info Card - Floating over image */}
+                {/* Product Info Card - Floating below image */}
                 <motion.div 
-                  className="absolute -bottom-6 left-4 right-4 bg-background rounded-2xl shadow-xl p-5"
+                  className="absolute -bottom-16 left-4 right-4 bg-background rounded-2xl shadow-xl p-5"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.2, duration: 0.5 }}
