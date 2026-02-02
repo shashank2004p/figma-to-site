@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import ScrollReveal from "./ScrollReveal";
 import ProductQuickView from "./ProductQuickView";
+import ProductCarousel from "./ProductCarousel";
 import StockBadge from "./StockBadge";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useCart } from "@/contexts/CartContext";
-import { useInfiniteMarquee } from "@/hooks/use-infinite-marquee";
 import { products, type Product, type BadgeType } from "@/data/products";
 
 const BadgeComponent = ({ type }: { type: BadgeType }) => {
@@ -81,7 +81,7 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick: () => vo
 
   return (
     <div 
-      className="flex-shrink-0 w-[280px] sm:w-[320px] group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] hover:shadow-[0_20px_50px_-12px_hsl(var(--foreground)/0.2)] transition-all duration-300 select-none" 
+      className="w-[280px] sm:w-[320px] group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] hover:shadow-[0_20px_50px_-12px_hsl(var(--foreground)/0.2)] transition-all duration-300" 
       onClick={onClick}
     >
       {/* Image Container */}
@@ -174,53 +174,6 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick: () => vo
   );
 };
 
-const ProductMarquee = ({ 
-  productList, 
-  direction = "left",
-  speed = 40,
-  onProductClick
-}: { 
-  productList: Product[]; 
-  direction?: "left" | "right";
-  speed?: number;
-  onProductClick: (product: Product) => void;
-}) => {
-  const { wrapperRef, isDragging, handlers } = useInfiniteMarquee({
-    direction,
-    speedSeconds: speed,
-    sets: 3,
-  });
-
-  // Triple the items for seamless infinite scroll
-  const items = [...productList, ...productList, ...productList];
-
-  return (
-    <div 
-      ref={wrapperRef}
-      className={
-        "relative overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing" +
-        (isDragging ? " select-none" : "")
-      }
-      style={{ scrollBehavior: "auto" }}
-      {...handlers}
-    >
-      {/* Gradient overlays for smooth edges */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-      
-      <div className="flex gap-4 sm:gap-6 py-2 w-max px-4">
-        {items.map((product, index) => (
-          <ProductCard 
-            key={`${direction}-${product.id}-${index}`} 
-            product={product} 
-            onClick={() => onProductClick(product)} 
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
-
 const CollectionsSection = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   // Only show first 4 products for collections
@@ -241,13 +194,18 @@ const CollectionsSection = () => {
         </div>
       </ScrollReveal>
 
-      {/* Products Marquee */}
-      <ProductMarquee 
-        productList={collectionProducts} 
-        direction="left" 
-        speed={45}
-        onProductClick={setSelectedProduct} 
-      />
+      {/* Products Carousel */}
+      <div className="px-4 sm:px-8 lg:px-16 max-w-7xl mx-auto">
+        <ProductCarousel autoplayDelay={4000}>
+          {collectionProducts.map((product) => (
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+              onClick={() => setSelectedProduct(product)} 
+            />
+          ))}
+        </ProductCarousel>
+      </div>
 
       {/* Quick View Modal */}
       {selectedProduct && (
