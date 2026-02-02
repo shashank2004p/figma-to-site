@@ -85,11 +85,11 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick: () => vo
 
   return (
     <div 
-      className="w-[240px] sm:w-[280px] h-[380px] sm:h-[440px] group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] transition-all duration-300 flex flex-col" 
+      className="w-[240px] sm:w-[280px] h-full group cursor-pointer bg-card rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_4px_20px_-4px_hsl(var(--foreground)/0.08)] transition-all duration-300 flex flex-col" 
       onClick={onClick}
     >
       {/* Image Container */}
-      <div className="relative overflow-hidden bg-secondary/30 aspect-[4/5] flex-shrink-0">
+      <div className="relative overflow-hidden bg-secondary/30 h-[200px] sm:h-[240px] flex-shrink-0">
         {/* Badge */}
         {product.badge && <BadgeComponent type={product.badge} />}
 
@@ -138,7 +138,7 @@ const ProductCard = ({ product, onClick }: { product: Product; onClick: () => vo
           </div>
         </div>
 
-        <p className="text-muted-foreground text-sm line-clamp-2 flex-grow">{product.description}</p>
+        <p className="text-muted-foreground text-sm flex-grow">{product.description}</p>
 
         <div className="flex flex-wrap items-center justify-between gap-2 mt-auto">
           {/* Price */}
