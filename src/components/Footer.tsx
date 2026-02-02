@@ -23,7 +23,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gradient-to-b from-background via-secondary/30 to-secondary/50 relative overflow-hidden">
+    <footer className="relative overflow-hidden" style={{ background: 'linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--coral) / 0.08) 50%, hsl(var(--coral) / 0.15) 100%)' }}>
       {/* Decorative Dots */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-[15%] w-2 h-2 bg-coral rounded-full" />
