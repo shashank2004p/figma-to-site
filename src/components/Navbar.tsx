@@ -8,6 +8,10 @@ import { Link, useLocation } from "react-router-dom";
 import SearchModal from "./SearchModal";
 import logo from "@/assets/logo.png";
 
+type NavbarProps = {
+  className?: string;
+};
+
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Shop", href: "#" },
@@ -18,7 +22,7 @@ const navLinks = [
   { label: "Contact Us", href: "#" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ className }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const { wishlistCount } = useWishlist();
@@ -31,7 +35,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background py-3 px-4 sm:px-6 lg:px-8">
+    <nav
+      className={[
+        "sticky top-0 z-50 py-3 px-4 sm:px-6 lg:px-8",
+        className ?? "bg-background",
+      ].join(" ")}
+    >
       {/* Rounded pill container */}
       <div className="max-w-7xl mx-auto bg-background border border-border rounded-full px-4 sm:px-6 py-3 shadow-sm">
         <div className="flex items-center justify-between">

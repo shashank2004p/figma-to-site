@@ -21,12 +21,13 @@ const sortOptions = [
 
 const SortDropdown = ({ value, onChange }: SortDropdownProps) => {
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-sm text-muted-foreground whitespace-nowrap">
+    <div className="flex items-center gap-2 min-w-0">
+      {/* Hide label on mobile to prevent overflow */}
+      <span className="hidden sm:inline text-sm text-muted-foreground whitespace-nowrap">
         Sort By:
       </span>
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="w-40 bg-muted/50 border-0">
+        <SelectTrigger className="w-32 sm:w-40 bg-muted/50 border-0">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

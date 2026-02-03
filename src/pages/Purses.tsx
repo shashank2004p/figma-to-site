@@ -13,6 +13,7 @@ import ProductQuickView from "@/components/ProductQuickView";
 import { products, type Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import shopBackground from "@/assets/shop-background.png";
 
 
 const PRODUCTS_PER_PAGE = 12;
@@ -114,10 +115,21 @@ const Purses = () => {
   return (
     <div className="min-h-screen bg-background">
       <ScrollToTop />
-      <Navbar />
+      {/* Header area with shared background image (Navbar + ShopHeader) */}
+      <div
+        className="relative overflow-hidden bg-cover bg-right sm:bg-top"
+        style={{
+          backgroundImage: `url(${shopBackground})`,
+        }}
+      >
+        {/* Soft overlay for readability */}
+        <div className="absolute inset-0 bg-background/50" aria-hidden="true" />
 
-      {/* Page Header */}
-      <ShopHeader />
+        <div className="relative z-10">
+          <Navbar className="bg-transparent" />
+          <ShopHeader />
+        </div>
+      </div>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -128,9 +140,9 @@ const Purses = () => {
           {/* Products Area */}
           <div className="flex-1 min-w-0">
             {/* Mobile Filter Toggle & Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-              <div className="flex items-center gap-4">
-                {/* Mobile Filter Button */}
+            <div className="mb-6">
+              {/* Mobile row: Filter (start) + Sort (end) */}
+              <div className="flex items-center justify-between gap-3 sm:hidden">
                 <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
                   <SheetTrigger asChild>
                     <Button variant="outline" size="sm" className="lg:hidden">
@@ -143,6 +155,27 @@ const Purses = () => {
                   </SheetContent>
                 </Sheet>
 
+                <SortDropdown value={sortBy} onChange={setSortBy} />
+              </div>
+
+              {/* Desktop/tablet row: Sort (left) + count (right) */}
+              <div className="hidden sm:flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <Sheet open={mobileFiltersOpen} onOpenChange={setMobileFiltersOpen}>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" size="sm" className="lg:hidden">
+                        <Menu className="h-4 w-4 mr-2" />
+                        Filters
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-80 overflow-y-auto">
+                      <div className="pt-6">{FiltersContent}</div>
+                    </SheetContent>
+                  </Sheet>
+
+                  <SortDropdown value={sortBy} onChange={setSortBy} />
+                </div>
+
                 <p className="text-muted-foreground">
                   Showing{" "}
                   <span className="font-semibold text-foreground">
@@ -152,7 +185,14 @@ const Purses = () => {
                 </p>
               </div>
 
-              <SortDropdown value={sortBy} onChange={setSortBy} />
+              {/* Mobile: count below */}
+              <p className="mt-3 sm:hidden text-muted-foreground">
+                Showing{" "}
+                <span className="font-semibold text-foreground">
+                  {filteredProducts.length}
+                </span>{" "}
+                Products
+              </p>
             </div>
 
             {/* Active Filters */}
