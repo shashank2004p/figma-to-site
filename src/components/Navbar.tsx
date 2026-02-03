@@ -17,7 +17,7 @@ const navLinks = [
   { label: "Shop", href: "#" },
   { label: "Purses", href: "/purses" },
   { label: "Jewellery", href: "#" },
-  { label: "About Us", href: "/about" },
+  { label: "About Us", href: "#" },
   { label: "Sale", href: "#" },
   { label: "Contact Us", href: "#" },
 ];
@@ -35,19 +35,13 @@ const Navbar = ({ className }: NavbarProps) => {
   };
 
   return (
-    <nav
-      className={[
-        "sticky top-0 z-50 py-3 px-4 sm:px-6 lg:px-8",
-        className ?? "bg-background",
-      ].join(" ")}
-    >
+    <nav className={["sticky top-0 z-50 py-3 px-4 sm:px-6 lg:px-8", className ?? "bg-background"].join(" ")}>
       {/* Rounded pill container */}
       <div className="max-w-7xl mx-auto bg-background border border-border rounded-full px-4 sm:px-6 py-3 shadow-sm">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
             <img src={logo} alt="Welcome" className="h-6 sm:h-8" />
-            <span className="hidden sm:inline text-lg font-semibold text-foreground">welcome</span>
           </div>
 
           {/* Navigation Links - Desktop */}
@@ -73,9 +67,7 @@ const Navbar = ({ className }: NavbarProps) => {
                       {link.label}
                     </Link>
                   )}
-                  {index < navLinks.length - 1 && (
-                    <span className="text-border">|</span>
-                  )}
+                  {index < navLinks.length - 1 && <span className="text-border">|</span>}
                 </li>
               );
             })}
@@ -83,18 +75,18 @@ const Navbar = ({ className }: NavbarProps) => {
 
           {/* Right Side Icons */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="hidden sm:flex rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral"
               onClick={() => setIsSearchOpen(true)}
             >
               <Search className="h-4 w-4" />
             </Button>
             {/* Cart Button with Badge */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="relative rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral"
               onClick={() => setIsCartOpen(true)}
             >
@@ -112,9 +104,13 @@ const Navbar = ({ className }: NavbarProps) => {
                 )}
               </AnimatePresence>
             </Button>
-            
+
             {/* Wishlist Button with Badge */}
-            <Button variant="ghost" size="icon" className="hidden sm:flex relative rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hidden sm:flex relative rounded-full border border-border h-9 w-9 transition-all duration-300 hover:border-coral hover:text-coral"
+            >
               <Heart className="h-4 w-4" />
               <AnimatePresence>
                 {wishlistCount > 0 && (
@@ -129,11 +125,11 @@ const Navbar = ({ className }: NavbarProps) => {
                 )}
               </AnimatePresence>
             </Button>
-            
+
             <Button className="hidden sm:flex ml-2 rounded-full bg-foreground text-background hover:bg-coral px-4 sm:px-6 text-sm transition-all duration-300">
               Sign In
             </Button>
-            
+
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
@@ -150,7 +146,7 @@ const Navbar = ({ className }: NavbarProps) => {
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -170,19 +166,11 @@ const Navbar = ({ className }: NavbarProps) => {
                 return (
                   <li key={link.label}>
                     {isExternal ? (
-                      <a
-                        href={link.href}
-                        className={linkClasses}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
+                      <a href={link.href} className={linkClasses} onClick={() => setIsMenuOpen(false)}>
                         {link.label}
                       </a>
                     ) : (
-                      <Link
-                        to={link.href}
-                        className={linkClasses}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
+                      <Link to={link.href} className={linkClasses} onClick={() => setIsMenuOpen(false)}>
                         {link.label}
                       </Link>
                     )}
@@ -191,9 +179,9 @@ const Navbar = ({ className }: NavbarProps) => {
               })}
             </ul>
             <div className="px-4 pb-4 flex gap-2">
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="sm:hidden rounded-full border border-border h-9 w-9"
                 onClick={() => {
                   setIsSearchOpen(true);
@@ -202,7 +190,11 @@ const Navbar = ({ className }: NavbarProps) => {
               >
                 <Search className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="sm:hidden relative rounded-full border border-border h-9 w-9">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="sm:hidden relative rounded-full border border-border h-9 w-9"
+              >
                 <Heart className="h-4 w-4" />
                 {wishlistCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-coral text-white text-[10px] font-bold min-w-[18px] h-[18px] rounded-full flex items-center justify-center">
@@ -217,7 +209,7 @@ const Navbar = ({ className }: NavbarProps) => {
           </motion.div>
         )}
       </AnimatePresence>
-      
+
       {/* Search Modal */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </nav>

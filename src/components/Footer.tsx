@@ -24,12 +24,12 @@ const Footer = () => {
   ];
 
   return (
-    <footer 
-      className="relative overflow-hidden" 
-      style={{ 
+    <footer
+      className="relative overflow-hidden"
+      style={{
         backgroundImage: `url(${footerBackground})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       {/* Decorative Dots - Hidden on mobile for cleaner look */}
@@ -54,21 +54,19 @@ const Footer = () => {
               Crafted With <span className="text-coral">Elegance & Care</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base lg:text-lg mb-6 sm:mb-8 leading-relaxed">
-              Thoughtfully Designed Purses That Blend Style, Quality, And Everyday Comfort
-              —Crafted To Elevate Your Look With Confidence.
+              Thoughtfully Designed Purses That Blend Style, Quality, And Everyday Comfort —Crafted To Elevate Your Look
+              With Confidence.
             </p>
-            
+
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button 
+              <Button
                 variant="outline"
                 className="w-full sm:w-auto rounded-full px-5 sm:px-6 lg:px-8 py-4 sm:py-5 lg:py-6 border-foreground/20 hover:bg-foreground hover:text-background transition-all duration-300 font-medium text-xs sm:text-sm lg:text-base"
               >
                 Subscribe & Save / Join Our List
               </Button>
-              <Button 
-                className="w-full sm:w-auto rounded-full px-5 sm:px-6 lg:px-8 py-4 sm:py-5 lg:py-6 bg-foreground text-background hover:bg-coral transition-all duration-300 font-medium text-xs sm:text-sm lg:text-base gap-2 group"
-              >
+              <Button className="w-full sm:w-auto rounded-full px-5 sm:px-6 lg:px-8 py-4 sm:py-5 lg:py-6 bg-foreground text-background hover:bg-coral transition-all duration-300 font-medium text-xs sm:text-sm lg:text-base gap-2 group">
                 Shop Now
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -83,7 +81,9 @@ const Footer = () => {
           {/* Explore Column */}
           <ScrollReveal variant="fadeUp" delay={0.1}>
             <div>
-              <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6">Explore</h4>
+              <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6">
+                Explore
+              </h4>
               <div className="grid grid-cols-3 gap-x-3 sm:gap-x-4 gap-y-2 sm:gap-y-3">
                 {exploreLinks.map((link) => (
                   <a
@@ -101,7 +101,9 @@ const Footer = () => {
           {/* Categories Column */}
           <ScrollReveal variant="fadeUp" delay={0.2}>
             <div>
-              <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6">Categories / Collections</h4>
+              <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3 sm:mb-4 lg:mb-6">
+                Categories / Collections
+              </h4>
               <div className="grid grid-cols-3 gap-x-3 sm:gap-x-4 gap-y-2 sm:gap-y-3">
                 {categoryLinks.map((link) => (
                   <a
@@ -118,56 +120,48 @@ const Footer = () => {
 
           {/* Contact Card */}
           <ScrollReveal variant="fadeUp" delay={0.3}>
-            <div className="relative rounded-2xl p-[2px] overflow-hidden shadow-lg">
-              {/* Animated border line (subtle, doesn't overlap content) */}
-              <div
-                className="absolute inset-0 animate-border-spin pointer-events-none"
-                aria-hidden="true"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, transparent 0deg, hsl(var(--coral)) 55deg, transparent 120deg)",
-                  opacity: 0.9,
-                }}
-              />
+            <div className="relative overflow-hidden bg-background rounded-2xl p-4 sm:p-5 lg:p-6 shadow-lg">
+              {/* Animated border line */}
+              <div className="absolute inset-0 rounded-2xl">
+                <div
+                  className="absolute inset-0 rounded-2xl animate-border-spin"
+                  style={{
+                    background:
+                      "conic-gradient(from 0deg, transparent 0deg, hsl(var(--coral)) 60deg, transparent 120deg)",
+                    padding: "2px",
+                  }}
+                />
+                <div className="absolute inset-[2px] bg-background rounded-[14px]" />
+              </div>
 
-              {/* Card surface */}
-              <div className="relative rounded-[14px] bg-background p-4 sm:p-5 lg:p-6">
+              {/* Content */}
+              <div className="relative z-10">
                 <div className="flex items-center gap-2 mb-2 sm:mb-3">
                   <span className="text-lg sm:text-xl">🇮🇳</span>
                   <span className="text-xs sm:text-sm text-muted-foreground">India</span>
                 </div>
-
                 <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-foreground mb-3 sm:mb-4">
                   Contact Us
                 </h4>
-
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 min-w-0">
+                <div className="flex items-center gap-4">
                   <a
                     href="mailto:Support@Yourbrand.Com"
-                    title="Support@Yourbrand.Com"
-                    className="flex items-center gap-2 text-muted-foreground hover:text-coral transition-colors text-xs sm:text-sm min-w-0"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-coral transition-colors text-xs sm:text-sm"
                   >
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-coral/10 flex items-center justify-center flex-shrink-0">
                       <Mail className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-coral" />
                     </div>
-                    <span className="leading-tight break-words sm:truncate">
-                      Support@Yourbrand.Com
-                    </span>
+                    <span>Support@Yourbrand.Com</span>
                   </a>
-
-                  <div className="hidden sm:block h-6 w-px bg-border/50 flex-shrink-0" />
-
+                  <div className="h-6 w-px bg-border/50" />
                   <a
                     href="tel:+919XXXXXXXXX"
-                    title="+91 9XXXXXXXXX"
-                    className="flex items-center gap-2 text-muted-foreground hover:text-coral transition-colors text-xs sm:text-sm min-w-0"
+                    className="flex items-center gap-2 text-muted-foreground hover:text-coral transition-colors text-xs sm:text-sm"
                   >
                     <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-coral/10 flex items-center justify-center flex-shrink-0">
                       <Phone className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-coral" />
                     </div>
-                    <span className="leading-tight break-words sm:truncate">
-                      +91 9XXXXXXXXX
-                    </span>
+                    <span>+91 9XXXXXXXXX</span>
                   </a>
                 </div>
               </div>
@@ -184,7 +178,6 @@ const Footer = () => {
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 lg:gap-6">
               <div className="flex items-center gap-2">
                 <img src={logo} alt="Welcome Logo" className="h-7 sm:h-8 lg:h-10" />
-                <span className="text-base sm:text-lg font-semibold text-foreground">welcome</span>
               </div>
               <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-[10px] sm:text-xs lg:text-sm text-muted-foreground">
                 <span className="font-medium">Privacy & Compliance :</span>
@@ -200,9 +193,15 @@ const Footer = () => {
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4 lg:gap-6 text-[10px] sm:text-xs lg:text-sm text-muted-foreground">
               <span>© 2026 Your Brand Name. All Rights Reserved.</span>
               <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <a href="#" className="hover:text-coral transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-coral transition-colors">Terms & Conditions</a>
-                <a href="#" className="hover:text-coral transition-colors">Return Policy</a>
+                <a href="#" className="hover:text-coral transition-colors">
+                  Privacy Policy
+                </a>
+                <a href="#" className="hover:text-coral transition-colors">
+                  Terms & Conditions
+                </a>
+                <a href="#" className="hover:text-coral transition-colors">
+                  Return Policy
+                </a>
               </div>
             </div>
           </div>
