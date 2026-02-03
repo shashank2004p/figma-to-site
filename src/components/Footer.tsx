@@ -2,6 +2,7 @@ import { ArrowRight, Mail, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 import ScrollReveal from "./ScrollReveal";
+import footerBackground from "@/assets/footer-background.png";
 
 const Footer = () => {
   const exploreLinks = [
@@ -23,7 +24,14 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative overflow-hidden" style={{ background: 'linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--coral) / 0.08) 50%, hsl(var(--coral) / 0.15) 100%)' }}>
+    <footer 
+      className="relative overflow-hidden" 
+      style={{ 
+        backgroundImage: `url(${footerBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+    >
       {/* Decorative Dots - Hidden on mobile for cleaner look */}
       <div className="absolute inset-0 pointer-events-none hidden sm:block">
         <div className="absolute top-1/4 left-[15%] w-2 h-2 bg-coral rounded-full" />
