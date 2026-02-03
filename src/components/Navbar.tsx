@@ -14,11 +14,8 @@ type NavbarProps = {
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Shop", href: "#" },
-  { label: "Purses", href: "/purses" },
-  { label: "Jewellery", href: "#" },
-  { label: "About Us", href: "#" },
-  { label: "Sale", href: "#" },
+  { label: "Shop", href: "/purses" },
+  { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "#" },
 ];
 
