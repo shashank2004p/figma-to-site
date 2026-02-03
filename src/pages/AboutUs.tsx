@@ -148,7 +148,7 @@ const AboutUs = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {features.map((feature, index) => (
               <ScrollReveal key={feature.title} variant="fadeUp" delay={index * 0.1}>
-                <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-border/30 text-center hover:shadow-md transition-shadow duration-300">
+                <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-border/30 text-center hover:shadow-xl transition-shadow duration-300">
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-coral/10 flex items-center justify-center mx-auto mb-4 text-coral">
                     {feature.icon}
                   </div>
