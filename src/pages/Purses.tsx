@@ -132,7 +132,7 @@ const Purses = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-16 py-8 sm:py-12">
         <div className="flex gap-8">
           {/* Desktop Filters Sidebar */}
           <div className="hidden lg:block">{FiltersContent}</div>
