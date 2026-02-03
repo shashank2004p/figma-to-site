@@ -3,6 +3,7 @@ import { useInfiniteMarquee } from "@/hooks/use-infinite-marquee";
 import avatarMale from "@/assets/avatar-male.jpg";
 import avatarFemale from "@/assets/avatar-female.png";
 import ScrollReveal from "./ScrollReveal";
+import testimonialCardBg from "@/assets/testimonials-card-bg.png";
 
 interface Testimonial {
   id: number;
@@ -76,7 +77,14 @@ const testimonialsRow2: Testimonial[] = [
 
 const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => {
   return (
-    <div className="flex-shrink-0 w-[320px] sm:w-[380px] h-[220px] sm:h-[240px] bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 select-none [&_*]:no-underline flex flex-col">
+    <div 
+      className="flex-shrink-0 w-[320px] sm:w-[380px] h-[220px] sm:h-[240px] bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 select-none [&_*]:no-underline flex flex-col border border-border/30"
+      style={{ 
+        backgroundImage: `url(${testimonialCardBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
+      }}
+    >
       {/* Quote Icon */}
       <Quote className="h-8 w-8 text-coral fill-coral/20 mb-4 flex-shrink-0" />
 

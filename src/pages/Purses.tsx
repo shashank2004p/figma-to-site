@@ -13,6 +13,7 @@ import ProductQuickView from "@/components/ProductQuickView";
 import { products, type Product } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import shopBackground from "@/assets/shop-background.png";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -111,7 +112,15 @@ const Purses = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background">
+    <div 
+      className="min-h-screen bg-background"
+      style={{ 
+        backgroundImage: `url(${shopBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <ScrollToTop />
       <Navbar />
 
