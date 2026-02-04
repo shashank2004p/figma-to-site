@@ -117,12 +117,9 @@ const Purses = () => {
       <ScrollToTop />
       {/* Header area with shared background image (Navbar + ShopHeader) */}
       <div
-        className="relative overflow-hidden"
+        className="relative overflow-hidden bg-cover bg-right sm:bg-top"
         style={{
           backgroundImage: `url(${shopBackground})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center top",
-          backgroundRepeat: "no-repeat",
         }}
       >
         {/* Soft overlay for readability */}
