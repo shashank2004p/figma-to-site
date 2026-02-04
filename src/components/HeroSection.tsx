@@ -28,8 +28,8 @@ const HeroSection = () => {
         style={{ opacity: overlayOpacity }}
       />
 
-      {/* Mobile overlay - stronger for readability */}
-      <div className="absolute inset-0 z-[1] bg-background/80 lg:hidden" />
+      {/* Mobile overlay - lighter to show background */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-background/40 via-background/50 to-background/70 lg:hidden" />
 
       {/* ===== MOBILE LAYOUT ===== */}
       <div className="relative z-10 lg:hidden">
