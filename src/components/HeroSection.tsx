@@ -84,48 +84,50 @@ const HeroSection = () => {
 
           {/* Mobile Product Image */}
           <motion.div 
-            className="mt-6 relative"
+            className="mt-6 relative pb-16"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
           >
-            <div className="rounded-3xl overflow-hidden shadow-xl">
+            <div className="relative rounded-3xl overflow-visible shadow-xl">
               <img
                 src={heroProduct}
                 alt="Aurora Mini Purse - Premium leather crossbody bag"
-                className="w-full aspect-[4/5] object-cover"
+                className="w-full aspect-[4/5] object-cover rounded-3xl"
                 loading="eager"
                 fetchPriority="high"
               />
-            </div>
 
-            {/* Mobile Product Info Card - Positioned higher on image */}
-            <motion.div 
-              className="bg-background rounded-2xl shadow-lg p-4 mx-4 -mt-20 relative z-10"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="text-lg font-semibold text-foreground">Aurora Mini Purse</h3>
-                <button className="flex items-center gap-1 text-coral text-sm font-medium group">
-                  View More
-                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-              </div>
-              <p className="text-sm text-muted-foreground mb-3">Structured Crossbody With Top Handle</p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-foreground">$500.00</span>
-                  <span className="text-sm text-muted-foreground line-through">$800.00</span>
+              {/* Mobile Product Info Card - Centered half on image, half below */}
+              <motion.div 
+                className="absolute bottom-0 left-0 right-0 translate-y-1/2 z-10 px-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
+                <div className="bg-background rounded-2xl shadow-lg p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-foreground">Aurora Mini Purse</h3>
+                    <button className="flex items-center gap-1 text-coral text-sm font-medium group">
+                      View More
+                      <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
+                    </button>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">Structured Crossbody With Top Handle</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold text-foreground">$500.00</span>
+                      <span className="text-sm text-muted-foreground line-through">$800.00</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                      <span className="text-sm text-foreground font-medium">4.0</span>
+                      <span className="text-xs text-muted-foreground">(125k Reviews)</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                  <span className="text-sm text-foreground font-medium">4.0</span>
-                  <span className="text-xs text-muted-foreground">(125k Reviews)</span>
-                </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
