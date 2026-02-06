@@ -6,10 +6,12 @@ import footerBackground from "@/assets/footer-background.png";
 
 const Footer = () => {
   const exploreLinks = [
-    { name: "Home", href: "/" },
-    { name: "Purses", href: "/purses" },
-    { name: "About Us", href: "/about" },
-    { name: "Contact Us", href: "#contact" },
+    { name: "Home", href: "#" },
+    { name: "Jewellery", href: "#" },
+    { name: "Sales", href: "#" },
+    { name: "Purses", href: "#" },
+    { name: "About Us", href: "#" },
+    { name: "Contact Us", href: "#" },
   ];
 
   const categoryLinks = [
